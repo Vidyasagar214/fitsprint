@@ -1,0 +1,13 @@
+/**
+ * Canonical app origin for auth redirects (local, Vercel preview, production).
+ * Set NEXT_PUBLIC_APP_URL in Vercel to your primary domain (e.g. https://fitsprint.vercel.app).
+ */
+export function getAppUrl(): string {
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "");
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return "http://localhost:3000";
+}

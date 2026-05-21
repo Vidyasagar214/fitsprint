@@ -1,0 +1,14 @@
+# FitSprint — link to your existing Supabase project:
+#   supabase link --project-ref <your-project-ref>
+#
+# Apply migrations:
+#   supabase db push
+
+[project]
+id = "fitsprint-local"
+
+[api]
+enabled = true
+
+[db]
+major_version = 15
