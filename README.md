@@ -16,7 +16,7 @@ FitSprint is designed for multiple user roles: visitors, registered users, premi
 - Scalable cloud infrastructure
 - Future support for mobile and wearable integrations
 
-**Product constitution** (mission, stack, phased delivery): see [`specs/`](./specs/). **Phase 0 complete** — [foundation spec](./specs/2026-05-21-phase-0-foundation/); **next:** Phase 1 polish / Phase 2 workouts.
+**Product constitution** (mission, stack, phased delivery): see [`specs/`](./specs/). **Phase 1–2 complete** — foundation + auth polish, CI, email verify, password reset, RBAC. **Next:** Phase 3 wire workouts to DB. [Roadmap](./specs/roadmap.md).
 
 ---
 
@@ -37,16 +37,27 @@ npm run dev
 
 Full setup: [docs/setup.md](./docs/setup.md) · Deploy: [docs/deploy.md](./docs/deploy.md)
 
-### Phase 0 status
+### Phase 1 status
 
 | Capability | Status |
 |------------|--------|
-| Landing, about, design system | ✅ |
+| Landing (hero, features, coaches, BMI, pricing) | ✅ |
+| About, design system, dark/light theme | ✅ |
 | Sign up / sign in / sign out | ✅ |
 | OAuth (Google, Apple, Facebook) | ✅ (configure in Supabase) |
-| Protected dashboard | ✅ |
+| Role routing (member `/dashboard`, admin `/admin`) | ✅ |
+| Email verification, forgot/reset password | ✅ |
+| RBAC premium gate (`/dashboard/progress`) | ✅ |
+| GitHub Actions CI | ✅ |
+| `POST /api/auth/register`, `reset-password` | ✅ |
+| Member UI: workouts, nutrition, progress, community, pricing, profile, settings | 🎨 UI shell (dummy data) |
+| Admin UI: users, subscriptions, trainers, content, reports | 🎨 UI shell (dummy data) |
+| Dashboard charts (weekly activity, macros, bars) | 🎨 UI shell |
+| Domain DB schema migration | ✅ `supabase/migrations/20260523120000_domain_schema.sql` |
 | Health API | ✅ `GET /api/health` |
-| Vercel deploy | 📋 Follow [docs/deploy.md](./docs/deploy.md) |
+| Vercel deploy | 📋 [docs/deploy.md](./docs/deploy.md) |
+
+🎨 = routes and visuals complete; connect to Postgres in Phases 3–7.
 
 ---
 
@@ -296,17 +307,22 @@ Additional modules follow the same pattern (`/api/progress`, `/api/community`, e
 
 ## Database entities (core)
 
-- Users & roles
-- Workout plans & exercises
-- Nutrition logs
-- Progress records
-- Subscriptions & payments
-- Trainers
-- Blog posts
-- Comments & community content
-- Notifications
+Implemented in `supabase/migrations/` (see [specs/tech-stack.md](./specs/tech-stack.md)):
 
-Schema and migrations live in Supabase (see `specs/tech-stack.md`).
+| Entity | Table(s) |
+|--------|----------|
+| Users & roles | `profiles`, `user_notification_preferences` |
+| Daily goals & activity | `user_daily_goals`, `daily_activity_snapshots` |
+| Workouts | `exercises`, `workout_templates`, `workout_sessions`, `workout_session_sets` |
+| Nutrition | `nutrition_meals`, `nutrition_daily_macros` |
+| Progress | `body_measurements`, `progress_metrics` |
+| Community | `community_posts`, `community_comments`, `community_likes` |
+| Subscriptions | `subscription_plans`, `user_subscriptions` |
+| Trainers | `trainers`, `trainer_programs` |
+| CMS | `cms_content` |
+| Admin | `content_moderation_flags`, `platform_reports`, `audit_logs` |
+
+UI currently uses dummy data in `lib/data/*` until Phase 2+ APIs wire these tables.
 
 ---
 

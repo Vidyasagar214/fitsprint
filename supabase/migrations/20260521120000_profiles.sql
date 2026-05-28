@@ -1,4 +1,4 @@
--- FitSprint profiles + RBAC role (Phase 0/1 foundation)
+-- FitSprint profiles + RBAC role (Phase 1 foundation)
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,

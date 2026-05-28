@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { signInWithOAuth, type OAuthProvider } from "@/lib/actions/oauth";
 
 const providers: { id: OAuthProvider; label: string }[] = [
-  { id: "google", label: "Continue with Google" },
-  { id: "apple", label: "Continue with Apple" },
-  { id: "facebook", label: "Continue with Facebook" },
+  { id: "google", label: "Google" },
+  { id: "apple", label: "Apple" },
+  { id: "facebook", label: "Facebook" },
 ];
 
 export function OAuthButtons() {
@@ -20,7 +20,7 @@ export function OAuthButtons() {
           key={id}
           type="button"
           variant="outline"
-          className="w-full"
+          className="auth-oauth-btn w-full"
           disabled={pending}
           onClick={() =>
             startTransition(() => {
@@ -28,7 +28,7 @@ export function OAuthButtons() {
             })
           }
         >
-          {label}
+          Continue with {label}
         </Button>
       ))}
     </div>

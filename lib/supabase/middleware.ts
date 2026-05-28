@@ -1,28 +1,24 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  canAccessPath,
+  getAccessDeniedRedirect,
+  isAuthPath,
+  parseUserRole,
+} from "@/lib/auth/rbac";
+import { getPostLoginPath, isAdminUser } from "@/lib/auth/roles";
+import { isEmailVerified, requiresEmailVerification } from "@/lib/auth/session";
 import { getSupabaseEnv } from "@/lib/env";
-
-const PUBLIC_PATHS = [
-  "/",
-  "/about",
-  "/login",
-  "/signup",
-  "/api/health",
-  "/auth/callback",
-];
-
-function isPublicPath(pathname: string) {
-  if (PUBLIC_PATHS.includes(pathname)) return true;
-  if (pathname.startsWith("/api/auth")) return true;
-  return false;
-}
 
 export async function updateSession(request: NextRequest) {
   const env = getSupabaseEnv();
   let response = NextResponse.next({ request });
 
   if (!env) {
-    if (request.nextUrl.pathname.startsWith("/dashboard")) {
+    if (
+      request.nextUrl.pathname.startsWith("/dashboard") ||
+      request.nextUrl.pathname.startsWith("/admin")
+    ) {
       const url = request.nextUrl.clone();
       url.pathname = "/login";
       url.searchParams.set("error", "config");
@@ -54,23 +50,75 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  if (!user && pathname.startsWith("/dashboard")) {
+  let profileRole: string | null = null;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+    profileRole = profile?.role ?? null;
+  }
+
+  const role = parseUserRole(profileRole);
+  const isAdmin = user ? isAdminUser(user.email, profileRole) : false;
+
+  if (
+    !user &&
+    (pathname.startsWith("/dashboard") || pathname.startsWith("/admin"))
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("next", pathname);
     return NextResponse.redirect(url);
   }
 
-  if (user && (pathname === "/login" || pathname === "/signup")) {
+  if (user && isAuthPath(pathname)) {
+    const url = request.nextUrl.clone();
+    if (pathname === "/reset-password") {
+      return response;
+    }
+    if (pathname === "/verify-email" && !isEmailVerified(user)) {
+      return response;
+    }
+    url.pathname = getPostLoginPath(user.email, profileRole);
+    return NextResponse.redirect(url);
+  }
+
+  if (user && requiresEmailVerification(pathname) && !isEmailVerified(user)) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/verify-email";
+    if (user.email) {
+      url.searchParams.set("email", user.email);
+    }
+    return NextResponse.redirect(url);
+  }
+
+  if (user && pathname.startsWith("/admin") && !isAdmin) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   }
 
-  if (!user && !isPublicPath(pathname) && pathname.startsWith("/dashboard")) {
+  if (user && isAdmin && pathname.startsWith("/dashboard")) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = "/admin";
     return NextResponse.redirect(url);
+  }
+
+  if (user && !canAccessPath(pathname, role, { isAdminByEmail: isAdmin })) {
+    const denied = getAccessDeniedRedirect(pathname, role);
+    if (denied) {
+      const url = request.nextUrl.clone();
+      url.pathname = denied.split("?")[0] ?? "/dashboard/pricing";
+      const query = denied.includes("?") ? denied.split("?")[1] : "";
+      if (query) {
+        new URLSearchParams(query).forEach((value, key) => {
+          url.searchParams.set(key, value);
+        });
+      }
+      return NextResponse.redirect(url);
+    }
   }
 
   return response;

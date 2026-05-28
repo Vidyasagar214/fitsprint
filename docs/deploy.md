@@ -1,6 +1,6 @@
 # FitSprint — Deploy on Vercel
 
-Phase 0 foundation deployment guide. Aligns with [tech-stack.md](../specs/tech-stack.md) and [validation.md](../specs/2026-05-21-phase-0-foundation/validation.md).
+Phase 1 foundation deployment guide. Aligns with [tech-stack.md](../specs/tech-stack.md) and [validation.md](../specs/2026-05-21-phase-1-foundation/validation.md).
 
 ## Prerequisites
 
@@ -73,7 +73,7 @@ Manual:
 - [ ] `/dashboard` redirects to `/login` when logged out
 - [ ] OAuth (if providers configured)
 
-Record deploy URL in [validation.md](../specs/2026-05-21-phase-0-foundation/validation.md) sign-off.
+Record deploy URL in [validation.md](../specs/2026-05-21-phase-1-foundation/validation.md) sign-off.
 
 ## 6. Rollback
 

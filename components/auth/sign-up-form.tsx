@@ -21,7 +21,14 @@ export function SignUpForm() {
       <form action={formAction} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="fullName">Name</Label>
-          <Input id="fullName" name="fullName" type="text" autoComplete="name" />
+          <Input
+            id="fullName"
+            name="fullName"
+            type="text"
+            autoComplete="name"
+            placeholder="Your name"
+            className="auth-input"
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
@@ -31,6 +38,8 @@ export function SignUpForm() {
             type="email"
             autoComplete="email"
             required
+            placeholder="you@example.com"
+            className="auth-input"
           />
         </div>
         <div className="space-y-2">
@@ -42,24 +51,36 @@ export function SignUpForm() {
             autoComplete="new-password"
             required
             minLength={8}
+            placeholder="Min. 8 characters"
+            className="auth-input"
           />
         </div>
         {state.error ? (
-          <p className="text-sm text-destructive" role="alert">
+          <p
+            className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+            role="alert"
+          >
             {state.error}
           </p>
         ) : null}
-        <Button type="submit" className="w-full" disabled={pending}>
+        <Button
+          type="submit"
+          variant="gradient"
+          className="w-full"
+          disabled={pending}
+        >
           {pending ? "Creating account…" : "Create account"}
         </Button>
       </form>
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-border" />
+          <span className="w-full border-t border-border/60" />
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-2 text-muted-foreground">Or</span>
+        <div className="relative flex justify-center text-xs uppercase tracking-wider">
+          <span className="auth-divider-label rounded-full px-3 py-0.5 text-xs uppercase tracking-wider">
+            Or continue with
+          </span>
         </div>
       </div>
 
@@ -67,7 +88,10 @@ export function SignUpForm() {
 
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}
-        <Link href="/login" className="font-medium text-primary hover:underline">
+        <Link
+          href="/login"
+          className="font-semibold text-primary hover:underline"
+        >
           Sign in
         </Link>
       </p>

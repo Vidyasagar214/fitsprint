@@ -42,7 +42,7 @@ This keeps one deployable unit on Vercel while remaining API-first and modular.
 
 - Tailwind CSS + shadcn/ui (accessible primitives, consistent design system)
 - Mobile-first responsive layouts
-- Charting (progress module): Recharts or similar (decide in Phase 3)
+- Charting (Phase 1 UI): custom SVG charts in `components/charts/*` (axes, legends, dummy series); evaluate Recharts when wiring live time-series (Phase 4)
 
 **Conventions**
 
@@ -57,7 +57,10 @@ This keeps one deployable unit on Vercel while remaining API-first and modular.
 - **Auth** — email/password plus **OAuth** (Google, Apple, Facebook) via Supabase Auth providers
 - **RLS** — default deny; policies per role and ownership
 - **Storage** — progress photos, exercise media, CMS assets
-- Migrations versioned in `supabase/migrations`
+- Migrations versioned in `supabase/migrations`:
+  - `20260521120000_profiles.sql` — `profiles`, auth trigger, RLS
+  - `20260522120000_admin_role.sql` — admin role for demo account
+  - `20260523120000_domain_schema.sql` — workouts, nutrition, progress, community, subscriptions, trainers, CMS, moderation (UI wiring Phase 3+)
 
 **RBAC roles** (app + DB): `visitor` (implicit), `user`, `premium`, `trainer`, `admin`
 
@@ -99,12 +102,12 @@ This keeps one deployable unit on Vercel while remaining API-first and modular.
 
 | Concern | Tool (recommended) | When |
 |---------|-------------------|------|
-| Unit / integration | Vitest | Phase 1+ |
-| E2E | Playwright | Phase 1+ |
-| CI | GitHub Actions — lint, typecheck, test on PR | **Phase 1+** (Phase 0: local scripts only) |
-| Deploy | Vercel previews + production; Supabase migration on release | Phase 0+ |
+| Unit / integration | Vitest | Phase 2+ |
+| E2E | Playwright | Phase 2+ |
+| CI | GitHub Actions — lint, typecheck, test on PR | **Phase 2+** (Phase 1: local scripts only) |
+| Deploy | Vercel previews + production; Supabase migration on release | Phase 1+ |
 
-Phase 0 uses local `lint`, `typecheck`, and `build` before merge; automated CI pipeline is not required until Phase 1 (see [2026-05-21-phase-0-foundation](./2026-05-21-phase-0-foundation/requirements.md)).
+Phase 1 uses local `lint`, `typecheck`, and `build` before merge; automated CI pipeline is not required until Phase 2 (see [2026-05-21-phase-1-foundation](./2026-05-21-phase-1-foundation/requirements.md)).
 
 ## What we are not using (v1)
 
@@ -112,7 +115,7 @@ Phase 0 uses local `lint`, `typecheck`, and `build` before merge; automated CI p
 - Custom password hashing or home-grown auth
 - Monorepo with separate `frontend/` and `backend/` packages (simplify until team scale demands split)
 
-## OAuth configuration (Phase 1)
+## OAuth configuration (Phase 1 — delivered; provider setup ongoing)
 
 - Enable **Google**, **Apple**, and **Facebook** providers in Supabase Auth
 - Register OAuth apps with redirect URLs for local dev and Vercel production/preview

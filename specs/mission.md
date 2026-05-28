@@ -35,7 +35,7 @@ We are not building another engagement-only social app. Community, gamification,
 | **Trainers** | Profiles, published programs, client inquiries, ratings |
 | **Administrators** | Users, subscriptions, moderation, platform analytics |
 
-**Early release priority (Phases 1–3):** Auth (email + OAuth), profiles, workout core, then progress tracking. Premium, community, trainers, CMS, and admin follow in later phases (see [roadmap.md](./roadmap.md)).
+**Early release priority (Phases 1–4):** Auth (email + OAuth) — **delivered in Phase 1**; wire profiles and workout core to DB (Phase 3), then progress tracking (Phase 4). **UI shells** for dashboard, nutrition, progress, community, pricing, and admin are **built in Phase 1** with dummy data (see [roadmap.md](./roadmap.md)).
 
 ## Core objectives (from product requirements)
 
@@ -49,7 +49,7 @@ We are not building another engagement-only social app. Community, gamification,
 ## Product principles
 
 1. **API-first, modular design** — Features map to clear modules (auth, workouts, nutrition, progress, etc.) that can ship independently.
-2. **Frictionless sign-in** — Email/password and OAuth (Google, Apple, Facebook) from day one of auth (Phase 1).
+2. **Frictionless sign-in** — Email/password and OAuth (Google, Apple, Facebook) delivered in Phase 1; polish in Phase 2.
 3. **Control & flexibility** — Especially in workouts: user-defined exercises, adaptable logging, templates—not only preset flows.
 4. **Insight over noise** — Analytics answer training and health questions; avoid vanity dashboards.
 5. **Data ownership** — Exportable history, transparent storage, GDPR-aligned practices; no lock-in by design.

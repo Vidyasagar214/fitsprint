@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FitSprintLogo } from "@/components/brand/fitsprint-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 
@@ -8,27 +9,24 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ userEmail }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Link
-          href="/"
-          className="text-lg font-bold tracking-tight text-primary"
-        >
-          FitSprint
-        </Link>
-        <nav aria-label="Main" className="flex items-center gap-2 sm:gap-4">
+    <header className="header-glass sticky top-0 z-50">
+      <div className="mx-auto flex h-[4.25rem] max-w-6xl items-center justify-between gap-4 px-4 lg:px-6">
+        <FitSprintLogo size="lg" priority className="min-h-[3rem]" />
+        <nav aria-label="Main" className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/about"
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
           >
             About
           </Link>
           {userEmail ? (
             <>
               <Link href="/dashboard">
-                <Button size="sm">Dashboard</Button>
+                <Button size="sm" variant="gradient">
+                  Dashboard
+                </Button>
               </Link>
-              <span className="hidden text-sm text-muted-foreground sm:inline">
+              <span className="hidden max-w-[140px] truncate text-xs text-muted-foreground sm:inline">
                 {userEmail}
               </span>
             </>
@@ -40,7 +38,9 @@ export function SiteHeader({ userEmail }: SiteHeaderProps) {
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button size="sm">Get started</Button>
+                <Button size="sm" variant="gradient">
+                  Get started
+                </Button>
               </Link>
             </>
           )}

@@ -9,17 +9,18 @@ Constitution and phased delivery docs for the **Fitness Website Platform** (prod
 | [../README.md](../README.md) | Full requirements: features, NFRs, APIs, entities |
 | [mission.md](./mission.md) | What/why, audience, principles |
 | [tech-stack.md](./tech-stack.md) | Canonical stack and architecture |
-| [roadmap.md](./roadmap.md) | Phases 0–11 in implementation order |
+| [roadmap.md](./roadmap.md) | Phases 1–12 in implementation order |
+| [design/ui-ux.md](./design/ui-ux.md) | UI/UX design controls (you define) |
 
 ## Feature specs
 
 | Phase | Folder | Status |
 |-------|--------|--------|
-| **0 — Foundation** | [2026-05-21-phase-0-foundation](./2026-05-21-phase-0-foundation/) | ✅ Complete |
-| **1 — Auth polish** | _TBD_ | Next |
-| **2 — Workouts MVP** | _TBD_ | Planned |
+| **1 — Foundation** | [2026-05-21-phase-1-foundation](./2026-05-21-phase-1-foundation/) | ✅ Complete |
+| **2 — Auth polish & CI** | [2026-05-22-phase-2-auth-ci](./2026-05-22-phase-2-auth-ci/) | ✅ Complete |
+| **3 — Workouts MVP** | [2026-05-24-phase-3-workouts-mvp](./2026-05-24-phase-3-workouts-mvp/) | ✅ Complete |
 
-Phase 0 includes [vision-alignment.md](./2026-05-21-phase-0-foundation/vision-alignment.md) vs original platform requirements.
+Phase 1 includes [vision-alignment.md](./2026-05-21-phase-1-foundation/vision-alignment.md) vs original platform requirements.
 
 Each feature folder contains `requirements.md`, `plan.md`, and `validation.md`.
 

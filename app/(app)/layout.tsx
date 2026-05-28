@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
+import { MeshBackground } from "@/components/design/mesh-background";
+import { FitSprintLogo } from "@/components/brand/fitsprint-logo";
+import { UserDashboardHeader } from "@/components/site/user-dashboard-header";
+import { UserDashboardNav } from "@/components/site/user-dashboard-nav";
+import { getAuthContext } from "@/lib/auth/profile";
+import { hasSupabaseEnv } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
-import { AppNav } from "@/components/site/app-nav";
-import { SignOutButton } from "@/components/auth/sign-out-button";
-import { createClient } from "@/lib/supabase/server";
-import { hasSupabaseEnv } from "@/lib/env";
-import Link from "next/link";
 
 export default async function AppLayout({
   children,
@@ -16,41 +17,36 @@ export default async function AppLayout({
     redirect("/login?error=config");
   }
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, isAdmin, displayName } = await getAuthContext();
 
   if (!user) {
     redirect("/login");
   }
 
+  if (isAdmin) {
+    redirect("/admin");
+  }
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex h-14 items-center justify-between border-b border-border px-4 lg:px-6">
-        <Link href="/dashboard" className="font-bold text-primary">
-          FitSprint
-        </Link>
-        <div className="flex items-center gap-4">
-          <span className="hidden text-sm text-muted-foreground sm:inline">
-            {user.email}
-          </span>
-          <SignOutButton />
+    <div className="mesh-background flex min-h-screen flex-col">
+      <MeshBackground />
+      <header className="header-glass relative z-50 overflow-visible">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-3 overflow-visible px-4 lg:gap-4 lg:px-6">
+          <FitSprintLogo href="/dashboard" size="lg" className="min-h-[2.75rem] shrink-0" />
+          <UserDashboardHeader
+            displayName={displayName}
+            email={user.email}
+          />
         </div>
       </header>
-      <div className="flex flex-1">
-        <aside className="hidden w-56 shrink-0 border-r border-border md:block">
-          <AppNav />
-        </aside>
-        <main id="main-content" className="flex-1 p-4 lg:p-8">
-          {children}
-        </main>
-      </div>
+      <main id="main-content" className="relative z-0 flex-1 px-4 py-4 lg:px-6 lg:py-5">
+        <div className="mx-auto max-w-[1400px]">{children}</div>
+      </main>
       <nav
         aria-label="Mobile app"
-        className="flex border-t border-border md:hidden"
+        className="header-glass relative z-40 lg:hidden"
       >
-        <AppNav />
+        <UserDashboardNav displayName={displayName} compact />
       </nav>
     </div>
   );
