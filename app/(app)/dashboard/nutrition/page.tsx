@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { macroBreakdown, nutritionMeals, todayGoals } from "@/lib/data/user-dashboard";
 import { DashboardPage, DashboardSection } from "@/components/dashboard/dashboard-page";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { MacroDonutChart } from "@/components/charts/macro-donut-chart";
+import { MacroDonutChart } from "@/components/charts";
 import { GoalProgress } from "@/components/dashboard/goal-progress";
 import { MediaThumb } from "@/components/dashboard/media-thumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
