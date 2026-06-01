@@ -4,8 +4,7 @@ import { getAuthContext } from "@/lib/auth/profile";
 import { getProgressPageData } from "@/lib/db/progress";
 import { DashboardPage, DashboardSection } from "@/components/dashboard/dashboard-page";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { SimpleBarChart } from "@/components/charts/simple-bar-chart";
-import { WeeklyActivityChart } from "@/components/charts/weekly-activity-chart";
+import { ChartBar, ChartCombo } from "@/components/charts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TrendingUp } from "lucide-react";
@@ -79,7 +78,7 @@ export default async function ProgressPage() {
             <p className="text-xs text-muted-foreground">Last 7 days · live data</p>
           </CardHeader>
           <CardContent className="p-4 pt-3">
-            <SimpleBarChart
+            <ChartBar
               data={minutesData}
               unit=" min"
               accent="green"
@@ -94,7 +93,7 @@ export default async function ProgressPage() {
             <p className="text-xs text-muted-foreground">Last 7 days · live data</p>
           </CardHeader>
           <CardContent className="p-4 pt-3">
-            <SimpleBarChart
+            <ChartBar
               data={weeklyCalorieTrend}
               unit=""
               accent="orange"
@@ -110,7 +109,7 @@ export default async function ProgressPage() {
             <CardTitle className="text-base font-semibold">Combined weekly view</CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-3">
-            <WeeklyActivityChart data={weeklyActivity} />
+            <ChartCombo data={weeklyActivity} />
           </CardContent>
         </Card>
       </DashboardSection>

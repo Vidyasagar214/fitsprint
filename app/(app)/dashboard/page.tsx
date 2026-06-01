@@ -10,8 +10,7 @@ import {
 } from "@/components/dashboard/dashboard-page";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { GoalProgress } from "@/components/dashboard/goal-progress";
-import { WeeklyActivityChart } from "@/components/charts/weekly-activity-chart";
-import { MacroDonutChart } from "@/components/charts/macro-donut-chart";
+import { ChartCombo, MacroDonutChart } from "@/components/charts";
 import { WorkoutRow } from "@/components/dashboard/workout-row";
 import { HydrationTracker } from "@/components/dashboard/hydration-tracker";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -122,7 +121,7 @@ export default async function DashboardPage({
             </Button>
           </CardHeader>
           <CardContent className="px-4 pb-4 pt-3">
-            <WeeklyActivityChart data={data.weeklyActivity} />
+            <ChartCombo data={data.weeklyActivity} />
           </CardContent>
         </Card>
 

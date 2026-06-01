@@ -34,8 +34,9 @@ npm run dev
 | `npm run build` | Production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript check |
+| `npm run test` | Unit tests (Vitest) |
 
-Full setup: [docs/setup.md](./docs/setup.md) · Deploy: [docs/deploy.md](./docs/deploy.md)
+Full setup: [docs/setup.md](./docs/setup.md) · Deploy: [docs/deploy.md](./docs/deploy.md) · Testing: [specs/testing.md](./specs/testing.md)
 
 ### Phase 1 status
 

@@ -10,6 +10,7 @@ Constitution and phased delivery docs for the **Fitness Website Platform** (prod
 | [mission.md](./mission.md) | What/why, audience, principles |
 | [tech-stack.md](./tech-stack.md) | Canonical stack and architecture |
 | [roadmap.md](./roadmap.md) | Phases 1–12 in implementation order |
+| [testing.md](./testing.md) | SDD testing strategy (unit tests + validation) |
 | [design/ui-ux.md](./design/ui-ux.md) | UI/UX design controls (you define) |
 
 ## Feature specs
@@ -22,7 +23,7 @@ Constitution and phased delivery docs for the **Fitness Website Platform** (prod
 
 Phase 1 includes [vision-alignment.md](./2026-05-21-phase-1-foundation/vision-alignment.md) vs original platform requirements.
 
-Each feature folder contains `requirements.md`, `plan.md`, and `validation.md`.
+Each feature folder contains `requirements.md`, `plan.md`, and `validation.md`. Automated unit tests live in `tests/unit/` and are described in [testing.md](./testing.md).
 
 ## Vision alignment (summary)
 

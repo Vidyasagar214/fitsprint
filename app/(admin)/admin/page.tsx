@@ -13,8 +13,7 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { ChartPanel } from "@/components/dashboard/chart-panel";
 import { UserAvatar } from "@/components/dashboard/user-avatar";
 import { MediaThumb } from "@/components/dashboard/media-thumb";
-import { Revenue3DChart } from "@/components/charts/revenue-3d-chart";
-import { AnimatedDonutChart } from "@/components/charts/animated-donut-chart";
+import { ChartBar, ChartPie, toPctPieSlices } from "@/components/charts";
 import { getAdminHeaderProps } from "@/lib/admin-page-props";
 import {
   adminMetrics,
@@ -82,7 +81,7 @@ export default async function AdminOverviewPage() {
             </CardHeader>
             <CardContent className="p-4 pt-2">
               <ChartPanel>
-                <Revenue3DChart data={chartData} accent="green" />
+                <ChartBar data={chartData} accent="green" showTrendLine height={208} />
               </ChartPanel>
             </CardContent>
           </Card>
@@ -93,7 +92,7 @@ export default async function AdminOverviewPage() {
             </CardHeader>
             <CardContent className="space-y-4 px-4 pb-4 pt-0">
               <div className="flex justify-center">
-                <AnimatedDonutChart slices={planDistribution} size={140} />
+                <ChartPie slices={toPctPieSlices(planDistribution)} size={140} />
               </div>
               <ul className="space-y-1.5 text-sm">
                 {planDistribution.map((p) => (

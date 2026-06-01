@@ -1,13 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChartPie } from "@/components/charts/chart-pie";
+import type { MacroSlice } from "@/components/charts/types";
 
-export type MacroSlice = {
-  name: string;
-  grams: number;
-  color: string;
-  pct: number;
-};
+export type { MacroSlice };
 
 type MacroDonutChartProps = {
   slices: MacroSlice[];
@@ -20,74 +16,32 @@ export function MacroDonutChart({
   totalKcal = 1840,
   size = 168,
 }: MacroDonutChartProps) {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const t = requestAnimationFrame(() => setReady(true));
-    return () => cancelAnimationFrame(t);
-  }, []);
-
-  const r = 38;
-  const c = 2 * Math.PI * r;
-  const segments = slices.reduce<
-    Array<MacroSlice & { dash: number; offset: number }>
-  >((acc, slice) => {
-    const dash = (slice.pct / 100) * c;
-    const offset = acc.length ? acc[acc.length - 1].offset + acc[acc.length - 1].dash : 0;
-    acc.push({ ...slice, dash, offset });
-    return acc;
-  }, []);
-
-  const cx = 50;
-  const cy = 50;
+  const pieSlices = slices.map((s) => ({
+    name: s.name,
+    value: s.pct,
+    color: s.color,
+    pct: s.pct,
+  }));
 
   return (
     <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-center sm:gap-8">
-      <div className="relative shrink-0" style={{ width: size, height: size }}>
-        <svg
-          width={size}
-          height={size}
-          viewBox="0 0 100 100"
-          role="img"
-          aria-label="Macro nutrient breakdown"
-        >
-          <circle
-            cx={cx}
-            cy={cy}
-            r={r}
-            fill="none"
-            stroke="currentColor"
-            strokeOpacity="0.1"
-            strokeWidth="12"
-          />
-          {segments.map((seg, i) => (
-            <circle
-              key={seg.name}
-              cx={cx}
-              cy={cy}
-              r={r}
-              fill="none"
-              stroke={seg.color}
-              strokeWidth="12"
-              strokeDasharray={`${ready ? seg.dash : 0} ${c - seg.dash}`}
-              strokeDashoffset={-seg.offset}
-              transform={`rotate(-90 ${cx} ${cy})`}
-              strokeLinecap="round"
-              className="transition-all duration-1000 ease-out"
-              style={{ transitionDelay: `${i * 120}ms` }}
-            />
-          ))}
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-            Total
-          </span>
-          <span className="font-display text-lg font-bold leading-tight">
-            {totalKcal.toLocaleString()}
-          </span>
-          <span className="text-[10px] text-muted-foreground">kcal</span>
-        </div>
-      </div>
+      <ChartPie
+        slices={pieSlices}
+        variant="doughnut"
+        size={size}
+        ariaLabel="Macro nutrient breakdown"
+        centerContent={
+          <>
+            <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+              Total
+            </span>
+            <span className="font-display text-lg font-bold leading-tight">
+              {totalKcal.toLocaleString()}
+            </span>
+            <span className="text-[10px] text-muted-foreground">kcal</span>
+          </>
+        }
+      />
 
       <ul className="w-full min-w-[160px] space-y-3">
         {slices.map((s) => (

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { AdminPageShell } from "@/components/admin/admin-page-shell";
 import { ChartPanel } from "@/components/dashboard/chart-panel";
-import { AnimatedDonutChart } from "@/components/charts/animated-donut-chart";
-import { Revenue3DChart } from "@/components/charts/revenue-3d-chart";
+import { ChartBar, ChartPie, toPctPieSlices } from "@/components/charts";
 import { getAdminHeaderProps } from "@/lib/admin-page-props";
 import { subscriptionRows, planDistribution } from "@/lib/data/admin-dashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,7 +31,7 @@ export default async function AdminSubscriptionsPage() {
             </CardHeader>
             <CardContent className="p-4 pt-0">
               <ChartPanel>
-                <Revenue3DChart data={barData} accent="blue" />
+                <ChartBar data={barData} accent="blue" showTrendLine height={208} />
               </ChartPanel>
               <div className="mt-3 space-y-2">
                 {subscriptionRows.map((row) => (
@@ -54,7 +53,7 @@ export default async function AdminSubscriptionsPage() {
               <CardTitle className="text-base">Plan mix</CardTitle>
             </CardHeader>
             <CardContent className="flex justify-center p-4 pt-0">
-              <AnimatedDonutChart slices={planDistribution} size={150} />
+              <ChartPie slices={toPctPieSlices(planDistribution)} size={150} />
             </CardContent>
           </Card>
         </div>
